@@ -1,4 +1,4 @@
-name: 'maestro-apply-changes'
+name: 'maestro-upgrade-workload'
 description: ''
 runs:
   using: 'docker'
