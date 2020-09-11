@@ -4,7 +4,7 @@ set -e
 [[ ${NODIS_DEPLOY_ENV} == "qa" && ${DEPLOY_QA_TO_PROD} != "false" ]] && NODIS_DEPLOY_ENV="prod"
 pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro
 
-git clone https://${GITHUB_TOKEN}:@github.com/${GITHUB_ORGANIZATION}/${MAESTRO_REPOSITORY}.git
+git clone https://${GITHUB_TOKEN}:@github.com/${GITHUB_REPOSITORY_OWNER}/${MAESTRO_REPOSITORY}.git
 cd ${MAESTRO_REPOSITORY}
 
 RESOURCE_FILE=`find . -name ${NODIS_PROJECT_NAME}.yaml`
