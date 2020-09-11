@@ -8,10 +8,10 @@ git clone https://${GH_GLOBAL_TOKEN}@github.com/${GITHUB_REPOSITORY_OWNER}/${MAE
 cd ${MAESTRO_REPOSITORY}
 
 RESOURCE_FILE=`find . -name ${NODIS_PROJECT_NAME}.yaml`
-NEW_VALUES=`printf '{"%s":{"image": {"tag": "%s"}}}' ${NODIS_DEPLOY_ENV} ${NODIS_PROJECT_VERSION}`
+NEW_VALUES="{\"${NODIS_DEPLOY_ENV}\":{\"image\": {\"tag\": \"${NODIS_PROJECT_VERSION}\"}}}"
 
 case `echo ${RESOURCE_FILE} | wc -w` in
-    1) maestro edit_values ${RESOURCE_FILE} -v ${NEW_VALUES}
+    1) maestro edit_values ${RESOURCE_FILE} -v
        maestro -e ${NODIS_DEPLOY_ENV} upgrade ${RESOURCE_FILE}
        git add ${RESOURCE_FILE}
        git commit -m "Updated ${RESOURCE_FILE} ${NODIS_DEPLOY_ENV} tag: ${NODIS_PROJECT_VERSION} - skip_ci"
