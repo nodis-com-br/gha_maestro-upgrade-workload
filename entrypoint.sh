@@ -5,7 +5,11 @@ set -e
 
 export CHARTMUSEUM_URI="https://${NODIS_CHART_REPOSITORY_USER}:${NODIS_CHART_REPOSITORY_PASSWORD}@${NODIS_CHART_REPOSITORY_HOST}"
 pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro
+
+git config --global user.email "${GH_PUSHER_EMAIL}"
+git config --global user.name "${GH_PUSHER_NAME}"
 git clone https://${GH_GLOBAL_TOKEN}@github.com/${GITHUB_REPOSITORY_OWNER}/${MAESTRO_REPOSITORY}.git
+
 cd ${MAESTRO_REPOSITORY}
 
 RESOURCE_FILE=`find . -name ${NODIS_PROJECT_NAME}.yaml`
