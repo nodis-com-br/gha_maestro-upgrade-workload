@@ -2,9 +2,12 @@
 set -e
 
 [[ ${NODIS_DEPLOY_ENV} == "qa" && ${DEPLOY_QA_TO_PROD} != "false" ]] && NODIS_DEPLOY_ENV="prod"
+[[ ${NODIS_DEPLOY_ENV} == "qa" && ${DEPLOY_QA_TO_DEV} == "true" ]] && NODIS_DEPLOY_ENV="dev"
 
 export CHARTMUSEUM_URI="https://${NODIS_CHART_REPOSITORY_USER}:${NODIS_CHART_REPOSITORY_PASSWORD}@${NODIS_CHART_REPOSITORY_HOST}"
-pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro
+export PIP_INDEX_URL="https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple"
+
+pip install maestro
 
 git config --global user.email "${GH_PUSHER_EMAIL}"
 git config --global user.name "${GH_PUSHER_NAME}"
@@ -19,7 +22,7 @@ case `echo ${RESOURCE_FILE} | wc -w` in
     1) maestro edit_values ${RESOURCE_FILE} -v "${NEW_VALUES}"
        maestro -e ${NODIS_DEPLOY_ENV} upgrade ${RESOURCE_FILE}
        git add ${RESOURCE_FILE}
-       git commit -m "Updated ${RESOURCE_FILE} ${NODIS_DEPLOY_ENV} tag: ${NODIS_PROJECT_VERSION} - skip_ci"
+       git commit -m "Updated ${RESOURCE_FILE} ${NODIS_DEPLOY_ENV} image tag to ${NODIS_PROJECT_VERSION} - skip_ci"
        git push;;
     0) echo "Resource file for ${NODIS_PROJECT_NAME} not found" && exit 1;;
     *) echo "Multiple resource files found: ${RESOURCE_FILE}" && exit 1;;

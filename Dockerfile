@@ -1,9 +1,12 @@
 FROM docker.io/nodisbr/python
 
 RUN apt-get -y update
+RUN apt-get -y install git curl apt-transport-https
 
-RUN apt-get -y install git curl
-RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+RUN curl https://baltocdn.com/helm/signing.asc | apt-key add -
+RUN echo "deb https://baltocdn.com/helm/stable/debian/ all main" > /etc/apt/sources.list.d/helm-stable-debian.list
+RUN apt-get -y update
+RUN apt-get -y install helm
 
 COPY entrypoint.sh /entrypoint.sh
 
