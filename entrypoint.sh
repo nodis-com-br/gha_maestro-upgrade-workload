@@ -21,7 +21,7 @@ case `echo ${RESOURCE_FILE} | wc -w` in
     1) maestro edit_values ${RESOURCE_FILE} -v "${NEW_VALUES}"
        maestro -e ${NODIS_DEPLOY_ENV} upgrade ${RESOURCE_FILE}
        git add ${RESOURCE_FILE}
-       git commit -m "Updated ${RESOURCE_FILE} ${NODIS_DEPLOY_ENV} image tag to ${NODIS_PROJECT_VERSION} - skip_ci"
+       git commit -m "Updated ${NODIS_PROJECT_NAME} ${NODIS_DEPLOY_ENV} image tag to ${NODIS_PROJECT_VERSION} - skip_ci"
        git push;;
     0) echo "Resource file for ${NODIS_PROJECT_NAME} not found" && exit 1;;
     *) echo "Multiple resource files found: ${RESOURCE_FILE}" && exit 1;;
