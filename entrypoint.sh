@@ -18,8 +18,8 @@ RESOURCE_FILE=`find . -name ${NODIS_PROJECT_NAME}.yaml`
 NEW_VALUES="{\"${NODIS_DEPLOY_ENV}\":{\"image\":{\"tag\":\"${NODIS_PROJECT_VERSION}\"}}}"
 
 case `echo ${RESOURCE_FILE} | wc -w` in
-    1) maestro edit_values ${RESOURCE_FILE} -v "${NEW_VALUES}"
-       maestro -e ${NODIS_DEPLOY_ENV} upgrade ${RESOURCE_FILE}
+    1) maestro -K environ edit ${RESOURCE_FILE} -v "${NEW_VALUES}"
+       maestro -K environ -e ${NODIS_DEPLOY_ENV} upgrade ${RESOURCE_FILE}
        git add ${RESOURCE_FILE}
        git commit -m "Updated ${NODIS_PROJECT_NAME} ${NODIS_DEPLOY_ENV} image tag to ${NODIS_PROJECT_VERSION} - skip_ci"
        git push;;
