@@ -27,5 +27,8 @@ case `echo ${RESOURCE_FILE} | wc -w` in
     *) echo "Multiple resource files found: ${RESOURCE_FILE}" && exit 1;;
 esac
 
-curl --location --header 'Content-Type: application/json' --request POST 'https://discord.com/api/webhooks/740966411366563870/k34Nc5ee0_j1OAzNNRNxGnUiUTicAX3CAYyjtyZXd9Q395NTHZUqlxWf31JOdTSUhfc6' \
-     --data-raw '{"embeds":[{"title":"Application deployed!","description":"The application **'${NODIS_PROJECT_NAME}'** was deployed with the version **'${NODIS_PROJECT_VERSION}'**","color":3311947,"fields":[{"name":"Triggered by","value":"'${GITHUB_ACTOR}'","inline":true},{"name":"Environment","value":"'${NODIS_DEPLOY_ENV}'","inline":true},{"name":"Repo","value":"'${GITHUB_SERVER_URL}'/'${GITHUB_REPOSITORY}'","inline":true}]}]}'
+
+if [[ ${NODIS_DEPLOY_ENV} == "prod" ]]; then
+    curl --location --header 'Content-Type: application/json' --request POST 'https://discord.com/api/webhooks/808450836064763974/M6TpuVoJ-52GEQZ5dBFmBNDwl3hyyP2yrogGIGJvbIoW-13CuwctscNvUn5Gslv2GuXE' \
+         --data-raw '{"embeds":[{"title":"Application deployed!","description":"The application **'${NODIS_PROJECT_NAME}'** was deployed with the version **'${NODIS_PROJECT_VERSION}'**","color":3311947,"fields":[{"name":"Triggered by","value":"'${GITHUB_ACTOR}'","inline":true},{"name":"Environment","value":"'${NODIS_DEPLOY_ENV}'","inline":true},{"name":"Repo","value":"'${GITHUB_SERVER_URL}'/'${GITHUB_REPOSITORY}'","inline":true}]}]}'
+fi
